@@ -3,12 +3,15 @@
 
 Source of truth: ~/workspace/goals/food-recipes/hidden_files/
   - recipes_merged.json  -> 116 authoritative original recipes (source: caption | creator_website)
-  - copycats_merged.json -> 226 clearly-badged copycat recipes (source: copycat)
+  - copycats_merged.json -> 226 entries; the 224 with real ingredients/instructions become
+    clearly-badged copycat recipes (source: copycat); the 2 placeholder entries with no
+    ingredients and no instructions ('Buy and Pass' by thepasinis, 'Untitled post' by
+    bakedbymelissa) become kind=non_recipe (source: archive) so they are never presented
+    as recipes at all.
   - archive (in recipes_merged.json) -> 227 archived posts; 226 already covered by
     copycats; the 1 without a copycat ('Happy meals day 11') becomes kind=non_recipe.
-    The 2 copycat entries with no ingredients ('Buy and Pass', 'Untitled post')
-    stay kind=copycat with empty ingredient/instruction lists (their descriptions
-    explain they are not recipe posts).
+
+Final split: original=116, copycat=224, non_recipe=3, total=343.
 """
 import csv, json, os
 
@@ -37,8 +40,11 @@ for r in rm['recipes']:
         'source': r.get('source', ''),
     })
 for c in cc:
+    # Placeholder entries with no recipe content are not recipes at all,
+    # invented or otherwise -- keep them strictly in non_recipe.
+    has_content = bool(c.get('ingredients')) or bool(c.get('instructions'))
     rows.append({
-        'kind': 'copycat',
+        'kind': 'copycat' if has_content else 'non_recipe',
         'post_id': c['post_id'],
         'permalink': c.get('permalink', ''),
         'username': c.get('username', ''),
@@ -50,7 +56,7 @@ for c in cc:
         'cuisine': c.get('cuisine', ''),
         'themes_json': j(c.get('themes')),
         'substitutes_json': j(c.get('substitutes')),
-        'source': c.get('source', ''),
+        'source': c.get('source', '') if has_content else 'archive',
     })
 arch_ids = {c['post_id'] for c in cc}
 for a in rm['archive']:
@@ -77,7 +83,7 @@ orig = sum(1 for r in rows if r['kind'] == 'original')
 copy = sum(1 for r in rows if r['kind'] == 'copycat')
 nonr = sum(1 for r in rows if r['kind'] == 'non_recipe')
 print(f'rows: {len(rows)}  (original={orig}, copycat={copy}, non_recipe={nonr})')
-assert orig == 116 and copy == 226 and nonr == 1, 'unexpected counts!'
+assert orig == 116 and copy == 224 and nonr == 3, 'unexpected counts!'
 
 out = os.path.expanduser('~/workspace/saved-eats-data/recipes.csv')
 os.makedirs(os.path.dirname(out), exist_ok=True)

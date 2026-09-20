@@ -3,7 +3,7 @@
 Every recipe from the Instagram **Eats** saved collection, in one searchable app.
 
 - **116 original creator recipes** — taken straight from post captions or the creator's own website. Never invented.
-- **226 copycat reconstructions** — clearly badged, each with links to similar published recipes. Creative reconstructions live only here, never mixed with creator recipes.
+- **224 copycat reconstructions** — clearly badged, each with links to similar published recipes. Creative reconstructions live only here, never mixed with creator recipes.
 - **3 archived posts** that couldn't become recipes (kept for browsing with their original Instagram links).
 
 ## Stack

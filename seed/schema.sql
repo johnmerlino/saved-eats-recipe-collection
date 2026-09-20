@@ -1,9 +1,10 @@
 -- Saved Eats schema: one table holding every saved Instagram post.
 -- kind = 'original'  : 116 authoritative creator recipes (caption or creator_website)
--- kind = 'copycat'   : 226 clearly-badged copycat reconstructions
--- kind = 'non_recipe': 1 archived post with no copycat ('Happy meals day 11')
--- (The 2 other non-recipe posts live in copycats_merged.json with explanatory
---  descriptions and empty ingredient lists; they import as kind='copycat'.)
+-- kind = 'copycat'   : 224 clearly-badged copycat reconstructions
+-- kind = 'non_recipe': 3 archived posts that are not recipes at all:
+--                      'Happy meals day 11' (no copycat), 'Buy and Pass (not a recipe post)',
+--                      and 'Untitled post (no recipe information available)'.
+--                      The copycat badge never touches these; they are retained for browsing only.
 
 create table if not exists public.recipes (
   id bigint generated always as identity primary key,
