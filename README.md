@@ -1,13 +1,27 @@
-# Saved Eats Recipe Collection
+# Saved Eats — Recipe Collection
 
-My personal recipe collection site, built from my Instagram "Eats" saved collection.
+Every recipe from the Instagram **Eats** saved collection, in one searchable app.
 
-- **116 original recipes** — ingredients and instructions taken verbatim from the
-  creator's post caption or their own website. Nothing invented.
-- **224 copycat recipes** — creative reconstructions inspired by saved posts that had
-  no retrievable recipe, each clearly badged as a copycat and linked to similar
-  published recipes online.
-- Search by title, ingredient, or creator; filter by cuisine/theme; "Surprise me"
-  button; every entry links back to the original Instagram post.
+- **116 original creator recipes** — taken straight from post captions or the creator's own website. Never invented.
+- **226 copycat reconstructions** — clearly badged, each with links to similar published recipes. Creative reconstructions live only here, never mixed with creator recipes.
+- **3 archived posts** that couldn't become recipes (kept for browsing with their original Instagram links).
 
-Open `index.html` in a browser, or visit the GitHub Pages site.
+## Stack
+
+- [Next.js](https://nextjs.org/) (App Router) + TypeScript
+- [Tailwind CSS](https://tailwindcss.com/) + [shadcn/ui](https://ui.shadcn.com/)-style components
+- [Supabase](https://supabase.com/) (Postgres) — the `recipes` table, seeded from `seed/recipes.csv`
+- Deployed on [Vercel](https://vercel.com/)
+
+## Local development
+
+```bash
+npm install
+cp .env.example .env.local   # fill in your Supabase project values
+npm run dev
+```
+
+## Database
+
+Schema lives in `seed/schema.sql`; the full seed data in `seed/recipes.csv`
+(generated from the original dataset by `seed/build_seed.py`).
